@@ -34,8 +34,8 @@ def breakline_text(text, max_width_px):
             temp_phrase = ""
 
         # Em casos de max_width_px = 400, essa linha ajusta o comment_words_list[j] que sobra, ela da um append nele
-        if (temp_phrase == (comment_words_list[j] + " ")) and (j == len_comment_words_list-1) : final_phrase_list.append(comment_words_list[j])
-    
+        if (j == len_comment_words_list-1): 
+            final_phrase_list.append(temp_phrase)
 
     final_phrase = '\n'.join(final_phrase_list)
     return final_phrase
@@ -57,9 +57,7 @@ def drawImage(json_obj, y_location=100):
 
         final_phrase = breakline_text(json_obj[i]['comentario'], HORIZONTAL_BOUNDARY_MULTILINETEXT)
         draw.multiline_text(xy=(100, y_location + VERTICAL_SPACE_VALUE), text=final_phrase, fill=(cl2), font=font_type)
-
-
-        #cada n caracteres, inclui \n (caso nao venha com a linha quebrada)
+    
 
         image.save("get_images/images/image_test" + str(i) +".jpeg")
 
