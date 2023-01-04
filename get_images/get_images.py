@@ -97,17 +97,20 @@ def drawImage(json_obj, y_location=100):
 
         draw.line(xy=[(120, h_initial), (120, h_final)], width=1, fill=(142, 145, 151))
 
+        image = image.crop((0, 20, 1040, h_final+70))
+
+
         image.save("get_images/images/image_test" + str(i) +".jpeg")
         y_location = 100
 
 
 
 # Opening JSON file
-#with open('comments_script.json', 'r') as openfile:
-    #json_object = load(openfile) #json.load()
+with open('comments_script.json', 'r') as openfile:
+    json_object = load(openfile) #json.load()
 
 
-#drawImage(json_object)
+drawImage(json_object)
 
 
 
