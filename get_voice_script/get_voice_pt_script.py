@@ -1,67 +1,31 @@
-import requests
-import time
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.action_chains import ActionChains
+from gtts import gTTS
+from json import load
+
+language = 'pt-br'
+
+with open('comments_script.json', 'r') as openfile:
+    json_object = load(openfile) #json.load()
+
+
+for i in range(len(json_object)):
+
+    text = json_object[i]['comentario']
+
+    # Create a gTTS object
+    tts = gTTS(text=text, lang=language)
+
+    tts.save(f'get_voice_script/voices/voice_c[{i}].mp3')
+    
+    for j in range(len(json_object[i]['respostas'])):
+
+        comentario_resp = json_object[i]['respostas'][j]['comentario_resp']
+
+        if comentario_resp != " " and comentario_resp != "":
+            print(repr(comentario_resp))
+
+            text = comentario_resp
+            tts = gTTS(text=text, lang=language)
+            tts.save(f'get_voice_script/voices/voice_c[{i}]_r[{j}].mp3')
 
 
 
-class Browser:
-        browser, service = None, None
-        
-        
-        def __init__(self, driver):
-            self.service = Service(driver)
-
-            chrome_options = webdriver.ChromeOptions()
-            prefs = {"profile.default_content_settings.popups": 0,
-             "download.default_directory": "/home/gukanaiama/Documentos/Github/YoutubeAutomation/get_voice_script/voices/",
-             "directory_upgrade": True}
-            chrome_options.add_experimental_option("prefs", prefs)
-            chrome_options.add_argument("--headless")
-
-            self.browser = webdriver.Chrome(service=self.service, options = chrome_options)
-
-            
-            
-        def open_page(self, url):
-            self.browser.get(url)
-            
-        def close_browser(self):
-            self.browser.close()
-
-        def reddit_topic(self):
-            browser = self.browser
-            browser.get('https://ttsmp3.com/text-to-speech/')
-
-            with open("get_voice_script/voice_script.txt", "r") as script_txt:
-                buffer_script = script_txt.read()
-
-            time.sleep(2)
-
-            #Create the object for Action Chains
-            #actions = ActionChains(browser)
-
-            #insert script in text box
-            browser.find_element(By.XPATH, "//textarea[@id='voicetext']").send_keys(buffer_script)
-
-            #selecting option bar
-            option_bar = browser.find_element(By.XPATH, "//select[@id='sprachwahl']")
-            option_bar.click()
-            time.sleep(0.5)
-            #Select Ricardo voice
-            ricardo_voice = browser.find_element(By.XPATH, "//option[@value='Ricardo']")
-            ricardo_voice.click()
-            time.sleep(0.5)
-            #Download button
-            download_buton = browser.find_element(By.XPATH, "//input[@id='downloadenbutton']")
-            download_buton.click()
-            time.sleep(0.5)
-
-
-
-browser = Browser('/snap/bin/chromium.chromedriver')
-browser.reddit_topic()
-time.sleep(3)
-browser.close_browser()

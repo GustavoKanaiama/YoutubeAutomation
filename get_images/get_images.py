@@ -86,7 +86,7 @@ def drawImage(json_obj, y_location=100):
         
         #Draw Vertical line (aesthetic)
         #voltando para a altura do primeiro comentário (linha do resp1_total_height ...)
-        
+
         y_location -= 2*VERTICAL_SPACE_VALUE + 2*font_type.getsize(json_obj[i]['respostas'][0]['autor_resp'])[1] + font_type.getsize_multiline(final_phrase_resp2)[1] + font_type.getsize_multiline(final_phrase_resp1)[1] #apontando para o fim do comentário(principal)
         
         h_initial = y_location + 2.5*VERTICAL_SPACE_VALUE
@@ -103,11 +103,11 @@ def drawImage(json_obj, y_location=100):
 
 
 # Opening JSON file
-with open('comments_script.json', 'r') as openfile:
-    json_object = load(openfile) #json.load()
+#with open('comments_script.json', 'r') as openfile:
+    #json_object = load(openfile) #json.load()
 
 
-drawImage(json_object)
+#drawImage(json_object)
 
 
 
