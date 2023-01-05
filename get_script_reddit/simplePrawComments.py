@@ -2,15 +2,20 @@ import praw
 from datetime import datetime
 import json
 
-reddit = praw.Reddit(
-    client_id="PYFGWTGyI46_WGX3R3jYOw",
-    client_secret="kmPvW3nrQQH0DTuUDqsGpsoDwUmi4g",
-    password="",
-    user_agent="u/theuserr",
-    username="",
-)
+def get_redditComments(cred, url, num_comments, type_sort='top'):
 
-def get_redditComments(url, num_comments, type_sort='top'):
+    """
+    reddit = praw.Reddit(
+        client_id="---------",
+        client_secret="-----------",
+        password="",
+        user_agent="-/------",
+        username="",
+    )
+    """
+
+
+    reddit = cred
 
     qnt_commentarios = num_comments
 
@@ -62,8 +67,6 @@ def get_redditComments(url, num_comments, type_sort='top'):
 
     with open("comments_script.json", "w") as outfile:
         outfile.write(json_object)
-
-url = 'https://www.reddit.com/r/RelatosDoReddit/comments/zynl95/fale_um_poder_in%C3%BAtil_e_a_outra_pessoa_vai_deixar/'
 
 #get_redditComments(url, 5)
 """

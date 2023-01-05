@@ -1,19 +1,10 @@
 from PIL import Image, ImageDraw, ImageFont
 from json import load
 
-cl2=(211,233,233)
-cl1=(24,25,26)
-
-
-font_type = ImageFont.truetype('get_images/assets/verdanab.ttf', 40)
-
-font_type_data = ImageFont.truetype('get_images/assets/verdanab.ttf', 30)
-
-HORIZONTAL_SPACE_VALUE = 20
-VERTICAL_SPACE_VALUE = 25
-HORIZONTAL_BOUNDARY_MULTILINETEXT = 820 #pixels, fixed in xy=(100, y_location)
 
 def breakline_text(text, max_width_px):
+
+    font_type = ImageFont.truetype('get_images/assets/verdanab.ttf', 40)
 
     comment_words_list = text.split(" ")
 
@@ -40,7 +31,17 @@ def breakline_text(text, max_width_px):
     final_phrase = '\n'.join(final_phrase_list)
     return final_phrase
 
-def drawImage(json_obj, y_location=100):
+def drawImage(json_obj, y_location=100, horiz_space=20, vert_space=25, horiz_boundary_multLineText=820):
+
+    cl1=(24,25,26)
+    cl2=(211,233,233)
+
+    HORIZONTAL_SPACE_VALUE = horiz_space
+    VERTICAL_SPACE_VALUE = vert_space
+    HORIZONTAL_BOUNDARY_MULTILINETEXT = horiz_boundary_multLineText #pixels, fixed in xy=(100, y_location)
+
+    font_type = ImageFont.truetype('get_images/assets/verdanab.ttf', 40)
+    font_type_data = ImageFont.truetype('get_images/assets/verdanab.ttf', 30)
 
     #y_location variable is working like a "pointer", poiting to a specifically y_location
 
