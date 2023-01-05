@@ -1,15 +1,14 @@
 import moviepy.editor as mpy
 import moviepy.video.fx.all as vfx
 from json import load
-import os
     
 
-def makingVideo(json_obj):
+def makingVideo(json_obj, bg_path):
     videos=[]
     audio_clip = list()
 
-    REPLIES_FLAG = False # Replies_Flag indicates when exist replies inside a comment, so we need iterate those anwsers inside each comment
-                         # and indicates to insert comment audio in front of all replies audios(audio_clip).
+    # when exist replies inside a comment, so we need iterate those anwsers inside each comment
+    # and indicates to insert comment audio in front of all replies audios(audio_clip).
 
     NUMBER_REPLIES = 0
 
@@ -57,10 +56,13 @@ def makingVideo(json_obj):
 
     final_clip = mpy.concatenate(videos)
     
+    bg_path = bg_path
 
-    background_image = (mpy.ImageClip("assembly_video/wallpaper_test_video.jpg", duration=final_clip.duration))
+    background_image = (mpy.ImageClip(bg_path, duration=final_clip.duration))
 
-    final_clip = mpy.CompositeVideoClip([background_image, final_clip.set_position("center")])
+    
+
+    final_clip = mpy.CompositeVideoClip([background_image, final_clip.set_position(("center", 0.2), relative=True)])
 
 
     # slow, ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow
@@ -68,20 +70,20 @@ def makingVideo(json_obj):
 
     final_clip = final_clip.fadein(0.35, 0)
 
-    final_clip.write_videofile("assembly_video/videos/final2.mp4", threads=4, fps=30,
+    final_clip.write_videofile("assembly_video/videos/final.mp4", threads=4, fps=30,
                                codec="libx264",
                                preset=compression,
                                ffmpeg_params=["-crf","30"])
     
 
+"""
 with open('comments_script.json', 'r') as openfile:
     json_object = load(openfile) #json.load()
 
-makingVideo(json_object)
+makingVideo(json_object, "assembly_video/wallpaper_test_video.jpg")
 
 
 
-"""
     # save file
     final_clip.write_videofile("final.mp4", threads=4, fps=30,
                                codec=mpy.vcodec,
