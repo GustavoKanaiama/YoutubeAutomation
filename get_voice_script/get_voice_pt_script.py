@@ -1,6 +1,7 @@
 from gtts import gTTS
 from json import load
 from pydub import AudioSegment
+
     
 def get_voices_pt(json_obj):
     
@@ -20,6 +21,14 @@ def get_voices_pt(json_obj):
         tts = gTTS(text=text, lang=language)
 
         tts.save(f'get_voice_script/voices/voice_c[{i}].mp3')
+
+        silence = AudioSegment.silent(duration=500)
+        audio = AudioSegment.from_file(f'get_voice_script/voices/voice_c[{i}].mp3')
+        result = audio + silence
+
+        
+        result.export(f'get_voice_script/voices/voice_c[{i}].mp3', format="mp3")
+
         
         for j in range(len(json_object[i]['respostas'])):
 
@@ -31,17 +40,31 @@ def get_voices_pt(json_obj):
                 tts = gTTS(text=text, lang=language, slow=0.3)
                 tts.save(f'get_voice_script/voices/voice_c[{i}]_r[{j}].mp3')
 
+                silence = AudioSegment.silent(duration=2000)
+                audio = AudioSegment.from_file(f'get_voice_script/voices/voice_c[{i}]_r[{j}].mp3')
+                result = silence + audio
+
+                
+                result.export(f'get_voice_script/voices/voice_c[{i}]_r[{j}].mp3', format="mp3")
+
+    #insert Fade_in audio in the first comment
+    fade_in = AudioSegment.silent(duration=500)
+    audio = AudioSegment.from_file(f'get_voice_script/voices/voice_c[0].mp3')
+    result = fade_in + audio
+        
+    result.export(f'get_voice_script/voices/voice_c[0].mp3', format="mp3")
+
 
 
 
 with open('comments_script.json', 'r') as openfile:
     json_object = load(openfile) #json.load()
-
+"""
 
 audio = AudioSegment.from_file('get_voice_script/voices/voice_c[0].mp3')
 fast_audio = audio.speedup(1.15)
 fast_audio.export('fast_audio_comment_0.mp3', format='mp3')
 
-
-#get_voices_pt(json_object)
+"""
+get_voices_pt(json_object)
 

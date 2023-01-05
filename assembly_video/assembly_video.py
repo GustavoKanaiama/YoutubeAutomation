@@ -56,9 +56,22 @@ def makingVideo(json_obj):
         audio_clip = []
 
     final_clip = mpy.concatenate(videos)
+    
+
+    background_image = (mpy.ImageClip("assembly_video/wallpaper_test_video.jpg", duration=final_clip.duration))
+
+    final_clip = mpy.CompositeVideoClip([background_image, final_clip.set_position("center")])
 
 
-    final_clip.write_videofile("assembly_video/videos/final.mp4", threads=4, fps=30)
+    # slow, ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow
+    compression = "fast"
+
+    final_clip = final_clip.fadein(0.35, 0)
+
+    final_clip.write_videofile("assembly_video/videos/final2.mp4", threads=4, fps=30,
+                               codec="libx264",
+                               preset=compression,
+                               ffmpeg_params=["-crf","30"])
     
 
 with open('comments_script.json', 'r') as openfile:
