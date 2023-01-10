@@ -11,7 +11,18 @@ def get_voices_pt(json_obj):
 
     with open('comments_script.json', 'r') as openfile:
         json_object = load(openfile) #json.load()
+    
+    #Get title voice
+    title = json_object[0]['titulo']
+    tts = gTTS(text=title, lang=language)
 
+    #Get comment voices
+    tts.save(f'get_voice_script/voices/voice_t.mp3')
+    silence = AudioSegment.silent(duration=500)
+    title_voice = AudioSegment.from_file(f'get_voice_script/voices/voice_t.mp3')
+    title_voice = title_voice + silence
+
+    title_voice.export(f'get_voice_script/voices/voice_t.mp3', format="mp3")
 
     for i in range(len(json_object)):
 
@@ -20,6 +31,7 @@ def get_voices_pt(json_obj):
         # Create a gTTS object
         tts = gTTS(text=text, lang=language)
 
+        #Get comment voices
         tts.save(f'get_voice_script/voices/voice_c[{i}].mp3')
 
         silence = AudioSegment.silent(duration=500)
@@ -49,16 +61,18 @@ def get_voices_pt(json_obj):
 
     #insert Fade_in audio in the first comment
     fade_in = AudioSegment.silent(duration=500)
-    audio = AudioSegment.from_file(f'get_voice_script/voices/voice_c[0].mp3')
+    audio = AudioSegment.from_file(f'get_voice_script/voices/voice_t.mp3')
     result = fade_in + audio
         
-    result.export(f'get_voice_script/voices/voice_c[0].mp3', format="mp3")
+    result.export(f'get_voice_script/voices/voice_t.mp3', format="mp3")
+
 
 
 """
-
 with open('comments_script.json', 'r') as openfile:
     json_object = load(openfile) #json.load()
+
+get_voices_pt(json_object)
 
 
 audio = AudioSegment.from_file('get_voice_script/voices/voice_c[0].mp3')

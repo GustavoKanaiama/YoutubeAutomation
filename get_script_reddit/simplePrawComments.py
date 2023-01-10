@@ -2,7 +2,7 @@ import praw
 from datetime import datetime
 import json
 
-def get_redditComments(cred, url, num_comments, type_sort='top'):
+def get_redditComments(cred, url, show_comments, select_comments, type_sort='top'):
 
     """
     reddit = praw.Reddit(
@@ -14,20 +14,34 @@ def get_redditComments(cred, url, num_comments, type_sort='top'):
     )
     """
 
-
     reddit = cred
-
-    qnt_commentarios = num_comments
-
     submission = reddit.submission(url=url)
-
     submission.comment_sort = type_sort
-
     comments = submission.comments
+    title = submission.title
 
     json_list = list()
+    select_list = list()
 
-    for i in range(qnt_commentarios):
+    #Create selected list
+    print()
+
+    for i in range(show_comments):
+        print(f"[{i}] - {comments[i].body}")
+        print()
+
+
+    print(" ----------END OF LIST -----------")
+    print(f"Now, select all the {select_comments} comments\n")
+
+
+    for i in range(select_comments):
+        ind_select = int(input(f"Insert your {i} choice: "))
+        select_list.append(ind_select)
+
+
+    #write the comments(in the selected list)
+    for i in select_list:
 
         autor = comments[i].author
 
@@ -45,6 +59,7 @@ def get_redditComments(cred, url, num_comments, type_sort='top'):
         delta_days = d_now - d_post
 
         json_dict = {
+            "titulo" : title,
             "autor": autor.name,
             "comentario": comments[i].body,
             "data" : f"· {delta_days.days} days ago",
@@ -68,8 +83,10 @@ def get_redditComments(cred, url, num_comments, type_sort='top'):
     with open("comments_script.json", "w") as outfile:
         outfile.write(json_object)
 
-#get_redditComments(url, 5)
 """
+get_redditComments(cred, url, 2)
+
+
 import enchant
 
 # Create a dictionary for Brazilian Portuguese

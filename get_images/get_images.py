@@ -45,6 +45,22 @@ def drawImage(json_obj, y_location=100, horiz_space=20, vert_space=25, horiz_bou
 
     #y_location variable is working like a "pointer", poiting to a specifically y_location
 
+    # Draw the title
+    image = Image.new('RGB', (1080,1920), color=cl1)
+    draw = ImageDraw.Draw(image)
+
+    final_phrase = breakline_text(json_obj[0]['titulo'], HORIZONTAL_BOUNDARY_MULTILINETEXT)
+    draw.multiline_text(xy=(70, 40), text=final_phrase, fill=(cl2), font=font_type, align="center", spacing=15)
+
+    h_title = font_type.getsize_multiline(final_phrase)[1]
+    w_title = font_type.getsize_multiline(final_phrase)[0]
+
+
+    # crop and save title image
+    image = image.crop((0, 0, 1040, h_title+80+VERTICAL_SPACE_VALUE)) #(left, top, right, bottom)
+
+    image.save(f"get_images/images/image_test_title.jpeg")
+
     for i in range(len(json_obj)):
         image = Image.new('RGB', (1080,1920), color=cl1)
         draw = ImageDraw.Draw(image)
@@ -105,7 +121,7 @@ def drawImage(json_obj, y_location=100, horiz_space=20, vert_space=25, horiz_bou
         y_location = 100
 
 
-
+"""
 # Opening JSON file
 with open('comments_script.json', 'r') as openfile:
     json_object = load(openfile) #json.load()
@@ -114,4 +130,4 @@ with open('comments_script.json', 'r') as openfile:
 drawImage(json_object)
 
 
-
+"""
