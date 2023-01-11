@@ -80,7 +80,8 @@ def get_redditComments(cred, url, show_comments, select_comments, type_sort='top
 
     json_object = json.dumps(json_list)
 
-    with open("comments_script.json", "w") as outfile:
+    with open("comments_script.json", "w+") as outfile:
+        #outfile.write("aaaaaaaaaaa")
         outfile.write(json_object)
 
 """

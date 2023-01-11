@@ -29,9 +29,7 @@ cred = praw.Reddit(
 
 ## Write json object with reddit comments information
 
-url = 'https://www.reddit.com/r/RelatosDoReddit/comments/106snlw/homem_pode_usar_calcinha/'
-num_comment = 6
-
+url = 'https://www.reddit.com/r/RelatosDoReddit/comments/xnzguf/qual_%C3%A9_o_seu_pior_insulto_sem_falar_palavr%C3%B5es/'
 
 #Resetting folders (deleting all folders used like 'buffer')
 shutil.rmtree("get_voice_script/voices")
@@ -47,6 +45,7 @@ number_selected_comments = 3
 
 get_redditComments(cred, url,number_show_comments, number_selected_comments, 'best')
 print("\n------- ENDING OF GET THE COMMENTS -------")
+
 ## Getting voices
 with open('comments_script.json', 'r') as jsonfile:
     json_object = load(jsonfile) 
@@ -59,5 +58,6 @@ drawImage(json_object)
 # Make Video
 makingVideo(json_object, "assembly_video/bg_videos/bg_video0.mp4", "assembly_video/bg_audios/bg_audio0.mp3")
 
-
+"""
+"""
 

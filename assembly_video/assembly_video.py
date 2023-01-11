@@ -123,15 +123,14 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path):
 
 
     # slow, ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow
-    compression = "fast"
+    compression = "veryslow"
 
     final_clip = final_clip.fadein(0.35, 0)
     
 
-    final_clip.write_videofile("assembly_video/videos/final.mp4", threads=4, fps=30,
-                               codec="libx264",
-                               preset=compression,
-                               ffmpeg_params=["-crf","30"])
+    final_clip.write_videofile("assembly_video/videos/final.mp4", threads=4, fps=final_clip.fps,
+                               codec="libx264", #libx264
+                               preset=compression, bitrate = '4000k')
     
 
 """
