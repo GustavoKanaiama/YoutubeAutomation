@@ -1,4 +1,4 @@
-from assembly_video.assembly_video import makingVideo
+from assembly_video.assembly_video_copy import makingVideo
 from get_images.get_images import drawImage#, breakline_text
 from get_script_reddit.simplePrawComments import get_redditComments #insert cred
 from get_voice_script.get_voice_pt_script import get_voices_pt
