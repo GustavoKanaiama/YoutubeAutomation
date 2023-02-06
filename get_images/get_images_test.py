@@ -32,6 +32,52 @@ def breakline_text(text, max_width_px):
     final_phrase = '\n'.join(final_phrase_list)
     return final_phrase
 
+def break_vertical_text(text, max_width_px, max_height_px):
+    # 'text' sem o breakline
+
+    text = breakline_text(text, max_width_px)
+
+    font_type = ImageFont.truetype('get_images/assets/verdanab.ttf', 40)
+
+    text_height = font_type.getsize_multiline(text)[1]
+    text_oneLine_height = font_type.getsize(text)[1]
+
+    qnt_breaktext = ceil(text_height/max_height_px) #how many elements in the list ("strings")
+
+    breaktext_list = list()
+    words_inText = text.split(" ") # list
+    cont = 0
+    last_count = 0
+
+    for i in range(qnt_breaktext):
+
+        if i != 0: 
+            words_inText = words_inText[last_count:] # se nao for a primeira iteracao
+
+        phrase_vertical_boundary = ""
+        
+        phrase_currentlyHeight = font_type.getsize_multiline(phrase_vertical_boundary)[1]
+
+
+        while phrase_currentlyHeight <= max_height_px and cont < len(words_inText):
+
+            phrase_currentlyHeight = font_type.getsize_multiline(phrase_vertical_boundary)[1]
+
+            phrase_vertical_boundary += words_inText[cont] + " " #vai adicionando palavra na frase ate passar o tamanho (tem que adicionar o espaço, pois ele é retirado durane o split())
+
+            cont += 1
+
+        last_count = cont
+        cont = 0
+        
+        breaktext_list.append(phrase_vertical_boundary)
+
+    if breaktext_list[-1] == "" or breaktext_list[-1] == " " or breaktext_list[-1] == "\n": # tira o ultimo item (espaço ou \n)
+        breaktext_list.pop()
+    
+    return breaktext_list
+
+
 def drawImage(json_obj, y_location=100, horiz_space=20, vert_space=25, horiz_boundary_multLineText=820):
 
     VERTICAL_LIMIT = 650
@@ -69,13 +115,36 @@ def drawImage(json_obj, y_location=100, horiz_space=20, vert_space=25, horiz_bou
 
     #Draw jsonTitle_text
 
-    autor_size = font_type.getsize(json_obj[last_item]['autor']) #return (x,y) -> (comprimento, altura), se o texto for multile, usa getsize_multiline()
+    autor_size = font_type.getsize(json_obj[last_item]['autor']) #return (x,y) -> (comprimento, altura), se o texto for multiline, usa getsize_multiline()
     
 
-    # Draw the commment
+    # Draw the selftext
 
-    final_phrase = breakline_text(json_obj[last_item]['selftext'], HORIZONTAL_BOUNDARY_MULTILINETEXT)
-    draw.multiline_text(xy=(100, y_location), text=final_phrase, fill=(cl2), font=font_type)
+    list_final_phrases = break_vertical_text(json_obj[last_item]['selftext'], VERTICAL_LIMIT, HORIZONTAL_BOUNDARY_MULTILINETEXT)
+    
+    draw.multiline_text(xy=(100, y_location), text=list_final_phrases[0], fill=(cl2), font=font_type)
+
+    h_final = font_type.getsize_multiline(list_final_phrases.pop(0))[1] + 3*VERTICAL_SPACE_VALUE + autor_size[1]
+
+    image = image.crop((0, 20, 1040, h_final))
+
+    image.save("get_images/images/image_test0" +".jpeg")
+
+    y_location = 100
+
+    for i in range(len(list_final_phrases)):
+
+        image = Image.new('RGB', (1080,1920), color=cl1)
+        draw = ImageDraw.Draw(image)
+
+        draw.multiline_text(xy=(100, y_location), text=list_final_phrases[i], fill=(cl2), font=font_type)
+
+        #image = image.crop((0, 20, 1040, h_final))
+
+
+        image.save("get_images/images/image_test" + str(i+1) +".jpeg")
+
+
 
     selftext_height_size = font_type.getsize_multiline(final_phrase)[1]
 
@@ -87,52 +156,6 @@ def drawImage(json_obj, y_location=100, horiz_space=20, vert_space=25, horiz_bou
 
     #image = image.crop((0, 20, 1040, h_final))
 
-
-
-    ## breakimage (vetical limit)
-
-
-    # Caso seja menor que o limite (o crop será no limite)
-    if h_final <= VERTICAL_LIMIT:
-        h_final = VERTICAL_LIMIT
-
-    y_savePointer = start_y_selftext
-    y_lastSavePointer = 0
-
-    selftextLineHeight = font_type.getsize(json_obj[last_item]['selftext'])[1]
-
-
-    print(selftextLineHeight)
-
-
-    for i in range(ceil(h_final / VERTICAL_LIMIT)):
-
-
-
-        print(y_lastSavePointer)
-        print(y_savePointer)
-        print()
-
-        while y_savePointer + selftextLineHeight < VERTICAL_LIMIT:
-            y_savePointer += selftextLineHeight
-        
-        print(y_savePointer)
-        
-        image.crop((0, y_lastSavePointer, 1040, y_savePointer)).save("get_images/images/image_selfText["+str(i)+"].jpeg")
-
-        if y_savePointer + VERTICAL_LIMIT < 1920 : 
-            y_lastSavePointer = y_savePointer
-            y_savePointer += VERTICAL_LIMIT
-        else:
-            y_savePointer = h_final_ref
-        
- 
-    ## ending of breakimage vetical limit
-
-
-
-
-    
 
 
     y_location = 100
@@ -194,7 +217,7 @@ def drawImage(json_obj, y_location=100, horiz_space=20, vert_space=25, horiz_bou
         image = image.crop((0, 20, 1040, h_final))
 
 
-        image.save("get_images/images/image_test" + str(i) +".jpeg")
+        image.save("get_images/images/image_test_comments" + str(i) +".jpeg")
         y_location = 100
 
 
@@ -202,6 +225,8 @@ def drawImage(json_obj, y_location=100, horiz_space=20, vert_space=25, horiz_bou
 # Opening JSON file
 with open('comments_script.json', 'r') as openfile:
     json_object = load(openfile) #json.load()
+
+#breaktext(json_object[len(json_object)-1]['selftext'], 820, 650)
 
 
 drawImage(json_object)

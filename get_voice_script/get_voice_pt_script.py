@@ -3,7 +3,7 @@ from json import load
 from pydub import AudioSegment
 
     
-def get_voices_pt(json_obj):
+def get_voices_pt(json_obj, silent_duration=500):
     
     json_object = json_obj
     
@@ -18,7 +18,7 @@ def get_voices_pt(json_obj):
 
     #Get comment voices
     tts.save(f'get_voice_script/voices/voice_t.mp3')
-    silence = AudioSegment.silent(duration=500)
+    silence = AudioSegment.silent(duration=silent_duration)
     title_voice = AudioSegment.from_file(f'get_voice_script/voices/voice_t.mp3')
     title_voice = title_voice + silence
 
@@ -34,7 +34,7 @@ def get_voices_pt(json_obj):
         #Get comment voices
         tts.save(f'get_voice_script/voices/voice_c[{i}].mp3')
 
-        silence = AudioSegment.silent(duration=500)
+        silence = AudioSegment.silent(duration=silent_duration)
         audio = AudioSegment.from_file(f'get_voice_script/voices/voice_c[{i}].mp3')
         result = audio + silence
 

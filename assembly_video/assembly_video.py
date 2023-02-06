@@ -6,7 +6,11 @@ from moviepy.video.fx.resize import resize
 from json import load
     
 
-def makingVideo(json_obj, bg_video_path, bg_audio_path):
+def makingVideo(json_obj, bg_video_path, bg_audio_path, bgvideo_interval=None, bgaudio_interval=None):
+    # bgvideo_interval is an list type variable with 2 integers representing seconds of subclip
+    # bgaudio_interval is similar
+
+
     videos=[]
     audio_clip = list()
     final_voice_clip = list()
@@ -22,12 +26,21 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path):
 
     #background logic
 
-    background_video = mpy.VideoFileClip(bg_video_path)
+    # --subclip (or not) the bg video
+    if bgvideo_interval == None: background_video = mpy.VideoFileClip(bg_video_path)
+
+    else: 
+        start_bgvideo = bgvideo_interval[0]
+        ends_bgvideo = bgvideo_interval[1]
+        background_video = mpy.VideoFileClip(bg_video_path).subclip(start_bgvideo, ends_bgvideo)
+    
     size_background_video = background_video.size 
 
     width_proportional = int(size_background_video[1]*9/16)-1 #Ratio 9:16
     
     val_inicial=int((size_background_video[0] - width_proportional)/2)
+
+    background_video = afx.volumex(background_video, factor=0)
 
     background_video = background_video.crop(x1=val_inicial, width=width_proportional)
 
@@ -46,7 +59,7 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path):
     title_image_clip = resize(title_image_clip, title_proportion)
     # Finish --- crop logic title
 
-    title_image_clip = title_image_clip.set_audio(audio_title)
+    #title_image_clip = title_image_clip.set_audio(audio_title)
     title_image_clip = title_image_clip.set_opacity(OPACITY)
 
     videos.append(title_image_clip) #creating video clip with title
@@ -83,7 +96,7 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path):
 
 
         image_clip = mpy.ImageClip(f'get_images/images/image_test{i}.jpeg',
-                         duration=audio_clip.duration)
+                         duration=audio_clip.duration+0.5)
         image_size = image_clip.size
         image_init_width = image_size[0]
         image_final_width = width_proportional - (2*MARGEM)
@@ -92,7 +105,6 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path):
 
         image_clip = resize(image_clip, proportion)
 
-        image_clip = image_clip.set_audio(audio_clip)
         image_clip = image_clip.set_opacity(OPACITY)
 
         videos.append(image_clip)
@@ -107,10 +119,16 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path):
     # guardar a duração do video (das imagens concatenadas)
     final_clip_duration = final_clip.duration
 
-    
-    background_audio = mpy.AudioFileClip(bg_audio_path)
+    # --subclip (or not) the bg audio
+    if bgaudio_interval == None: background_audio = mpy.AudioFileClip(bg_audio_path)
+
+    else: 
+        start_bgaudio = bgaudio_interval[0]
+        ends_bgaudio = bgaudio_interval[1]
+        background_audio = mpy.AudioFileClip(bg_audio_path).subclip(start_bgaudio, ends_bgaudio)
+
     background_audio = afx.audio_fadein(background_audio, 1)
-    background_audio = afx.volumex(background_audio, 0.03)
+    background_audio = afx.volumex(background_audio, 0.565)
 
     background_video = background_video.set_duration(final_clip.duration)
 

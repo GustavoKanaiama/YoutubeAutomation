@@ -118,23 +118,6 @@ cred = praw.Reddit(
 get_redditComments(cred, url, 5, 2, type_sort='top')
 
 
-"""
-get_redditComments(cred, url, 2)
-
-
-import enchant
-
-# Create a dictionary for Brazilian Portuguese
-dictionary = enchant.Dict("pt_BR")
-
-# Check the spelling of a word
-word = "se teletrankportar para onde você já está"
-if dictionary.check(word):
-    print(f"{word} is spelled correctly")
-else:
-    print(f"{word} is misspelled")
-    print(f"Suggested corrections: {dictionary.suggest(word)}")
-"""
 
 
 #este código captura apenas os principais comentários do post pelo id, sem ramificações. Ordena por "Melhor"
