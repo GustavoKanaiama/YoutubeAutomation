@@ -94,8 +94,7 @@ def get_redditComments(cred, url, show_comments, select_comments, type_sort='top
 
     json_object = json.dumps(json_list)
 
-    with open("comments_script.json", "w+") as outfile:
-        #outfile.write("aaaaaaaaaaa")
+    with open("json_files/comments_script.json", "w+") as outfile:
         outfile.write(json_object)
 
 def get_redditComments_en(cred, url, show_comments, select_comments, type_sort='top'):
@@ -184,8 +183,7 @@ def get_redditComments_en(cred, url, show_comments, select_comments, type_sort='
 
     json_object = json.dumps(json_list)
 
-    with open("comments_script.json", "w+") as outfile:
-        #outfile.write("aaaaaaaaaaa")
+    with open("json_files/comments_script.json", "w+") as outfile:
         outfile.write(json_object)
 
 

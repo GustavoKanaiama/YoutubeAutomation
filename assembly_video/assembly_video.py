@@ -46,7 +46,7 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path, bgvideo_interval=None, b
 
     #insert the title
     
-    audio_title = mpy.AudioFileClip(f'get_voice_script/voices/voice_t.mp3')
+    audio_title = mpy.AudioFileClip(f'get_voice_script/reddit_voices/voice_t.wav')
     title_image_clip = mpy.ImageClip(f'get_images/images/image_test_title.jpeg',
                          duration=audio_title.duration)
     # Start --- crop logic for the title
@@ -59,7 +59,7 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path, bgvideo_interval=None, b
     title_image_clip = resize(title_image_clip, title_proportion)
     # Finish --- crop logic title
 
-    #title_image_clip = title_image_clip.set_audio(audio_title)
+    title_image_clip = title_image_clip.set_audio(audio_title) #title tts set audio
     title_image_clip = title_image_clip.set_opacity(OPACITY)
 
     videos.append(title_image_clip) #creating video clip with title
@@ -79,11 +79,11 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path, bgvideo_interval=None, b
 
         for j in range(NUMBER_REPLIES):
 
-            audio_resp = mpy.AudioFileClip(f'get_voice_script/voices/voice_c[{i}]_r[{j}].mp3')
+            audio_resp = mpy.AudioFileClip(f'get_voice_script/reddit_voices/voice_c[{i}]_r[{j}].wav')
             audio_clip.append(audio_resp)
 
         
-        audio_comment = mpy.AudioFileClip(f'get_voice_script/voices/voice_c[{i}].mp3')
+        audio_comment = mpy.AudioFileClip(f'get_voice_script/reddit_voices/voice_c[{i}].wav')
 
         #if exist replies, insert comment audio in front of them and concatenate all
         if NUMBER_REPLIES != 0:
@@ -104,6 +104,8 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path, bgvideo_interval=None, b
         proportion = image_final_width/image_init_width
 
         image_clip = resize(image_clip, proportion)
+
+        image_clip = image_clip.set_audio(audio_clip) #set tts audio to image(comment)
 
         image_clip = image_clip.set_opacity(OPACITY)
 
@@ -128,7 +130,7 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path, bgvideo_interval=None, b
         background_audio = mpy.AudioFileClip(bg_audio_path).subclip(start_bgaudio, ends_bgaudio)
 
     background_audio = afx.audio_fadein(background_audio, 1)
-    background_audio = afx.volumex(background_audio, 0.565)
+    background_audio = afx.volumex(background_audio, 0.279)
 
     background_video = background_video.set_duration(final_clip.duration)
 
@@ -152,10 +154,10 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path, bgvideo_interval=None, b
     
 
 """
-with open('comments_script.json', 'r') as openfile:
+with open('json_files/comments_script.json', 'r') as openfile:
     json_object = load(openfile) #json.load()
 
-makingVideo(json_object, "assembly_video/bg_videos/bg_video0.mp4", "assembly_video/bg_audios/bg_audio0.mp3")
+makingVideo(json_object, "assembly_video/bg_videos/bg_video0.mp4", "assembly_video/bg_audios/bg_audio0.wav")
 
 
 
