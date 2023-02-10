@@ -26,7 +26,7 @@ cred = praw.Reddit(
 )
 
 ## Write json object with reddit comments information
-"""
+
 url = "https://www.reddit.com/r/AskReddit/comments/10kc3wm/what_is_a_cool_scientific_fact_that_you_know_that/"
 
 #Resetting folders (deleting all folders used like 'buffer')
@@ -56,7 +56,7 @@ get_voices_pt(json_object, silent_duration=600, voice='br_005')
 
 ## Get images
 drawImage(json_object)
-"""
+
 
 with open('json_files/comments_script.json', 'r') as jsonfile:
     json_object = load(jsonfile) 
