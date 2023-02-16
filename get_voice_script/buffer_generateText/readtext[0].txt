@@ -1,1 +1,0 @@
- LocalBitcoins encerra serviço de negociação de criptomoedas P2P .  Os clientes da LocalBitcoins têm 12 meses para retirar suas criptomoedas da carteira LocalBitcoins, mas são aconselhados a fazê-lo imediatamente. 

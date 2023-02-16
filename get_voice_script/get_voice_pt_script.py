@@ -6,6 +6,9 @@ import os
     
 def get_voices_pt(json_obj, silent_duration=500, voice='br_004'):
     
+    initial_url = 'api16-normal-c-useast2a.tiktokv.com'
+    sessionid= 'f4d76bf6387273f91dc7b1ae35c7bcec'
+
     json_object = json_obj
     
     with open('json_files/comments_script.json', 'r') as openfile:
@@ -19,7 +22,7 @@ def get_voices_pt(json_obj, silent_duration=500, voice='br_004'):
            generateText.write(title) #write text in buffer
 
     #Get comment voices
-    get_tts(init_url='api16-normal-c-useast1a.tiktokv.com', voice=voice, sessionid='f4d76bf6387273f91dc7b1ae35c7bcec', readfile=f'get_voice_script/buffer_generateText/readtext_title.txt', filename=f'get_voice_script/reddit_voices/voice_t.wav')
+    get_tts(init_url=initial_url, voice=voice, sessionid=sessionid, readfile=f'get_voice_script/buffer_generateText/readtext_title.txt', filename=f'get_voice_script/reddit_voices/voice_t.wav')
 
     silence = AudioSegment.silent(duration=silent_duration)
     title_voice = AudioSegment.from_file(f'get_voice_script/reddit_voices/voice_t.wav')
@@ -36,7 +39,7 @@ def get_voices_pt(json_obj, silent_duration=500, voice='br_004'):
            generateText.write(text) #write text in buffer
 
         #Get comment voices
-        get_tts(init_url='api16-normal-c-useast1a.tiktokv.com', voice=voice, sessionid='f4d76bf6387273f91dc7b1ae35c7bcec', readfile=f'get_voice_script/buffer_generateText/readtext_c[{i}].txt', filename=f'get_voice_script/reddit_voices/voice_c[{i}].wav')
+        get_tts(init_url=initial_url, voice=voice, sessionid=sessionid, readfile=f'get_voice_script/buffer_generateText/readtext_c[{i}].txt', filename=f'get_voice_script/reddit_voices/voice_c[{i}].wav')
 
 
         silence = AudioSegment.silent(duration=silent_duration)

@@ -27,8 +27,8 @@ cred = praw.Reddit(
 
 ## Write json object with reddit comments information
 
-url = "https://www.reddit.com/r/AskReddit/comments/10kc3wm/what_is_a_cool_scientific_fact_that_you_know_that/"
-
+url = "https://www.reddit.com/r/AskReddit/comments/10nkqxd/whats_the_worst_human_invention_ever_made/"
+"""
 #Resetting folders (deleting all folders used like 'buffer')
 shutil.rmtree("get_voice_script/reddit_voices")
 os.mkdir("get_voice_script/reddit_voices")
@@ -37,9 +37,9 @@ shutil.rmtree("get_images/images")
 os.mkdir("get_images/images")
 #Ending of reset
 
-number_show_comments = 120
+number_show_comments = 79
 
-number_selected_comments = 4
+number_selected_comments = 6
 
 LANG_EN = True #True -> esta em ingles // False -> esta em portugues
 
@@ -47,12 +47,12 @@ if LANG_EN: get_redditComments_en(cred, url,number_show_comments, number_selecte
 else: get_redditComments(cred, url,number_show_comments, number_selected_comments, 'best')
 
 print("\n------- ENDING OF GET THE COMMENTS -------")
-
+"""
 ## Getting voices
 with open('json_files/comments_script.json', 'r') as jsonfile:
     json_object = load(jsonfile) 
 
-get_voices_pt(json_object, silent_duration=600, voice='br_005')
+get_voices_pt(json_object, silent_duration=1050, voice='br_005')
 
 ## Get images
 drawImage(json_object)
@@ -62,12 +62,13 @@ with open('json_files/comments_script.json', 'r') as jsonfile:
     json_object = load(jsonfile) 
 
 
-bgvideo_inteval = [480, 540]
-bgaudio_interval = [90, 149]
+bgvideo_inteval = [0, 40]
+bgaudio_interval = [52, 115]
 
 # Make Video
-makingVideo(json_object, "assembly_video/bg_videos/bg_video1.mp4", "assembly_video/bg_audios/bg_audio3.mp3", bgvideo_interval=bgvideo_inteval, bgaudio_interval=bgaudio_interval)
+makingVideo(json_object, "assembly_video/bg_videos/bg_video2.mp4", bgvideo_interval=bgvideo_inteval)
 
-"""
-"""
+shutil.rmtree("get_voice_script/buffer_generateText")
+os.mkdir("get_voice_script/buffer_generateText")
+
 

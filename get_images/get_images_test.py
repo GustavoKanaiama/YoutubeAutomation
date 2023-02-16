@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 from json import load
 from math import ceil
-
+import textwrap
 
 def breakline_text(text, max_width_px):
 
@@ -76,6 +76,9 @@ def break_vertical_text(text, max_width_px, max_height_px):
         breaktext_list.pop()
     
     return breaktext_list
+
+
+#def drawCriptoNewsImage(json_obj):
 
 
 def drawImage(json_obj, y_location=100, horiz_space=20, vert_space=25, horiz_boundary_multLineText=820):

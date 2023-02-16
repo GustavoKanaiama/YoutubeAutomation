@@ -6,7 +6,7 @@ from moviepy.video.fx.resize import resize
 from json import load
     
 
-def makingVideo(json_obj, bg_video_path, bg_audio_path, bgvideo_interval=None, bgaudio_interval=None):
+def makingVideo(json_obj, bg_video_path, bg_audio_path=None, bgvideo_interval=None, bgaudio_interval=None):
     # bgvideo_interval is an list type variable with 2 integers representing seconds of subclip
     # bgaudio_interval is similar
 
@@ -59,7 +59,7 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path, bgvideo_interval=None, b
     title_image_clip = resize(title_image_clip, title_proportion)
     # Finish --- crop logic title
 
-    title_image_clip = title_image_clip.set_audio(audio_title) #title tts set audio
+    title_image_clip = title_image_clip.set_audio(audio_title) #title tts set audio'
     title_image_clip = title_image_clip.set_opacity(OPACITY)
 
     videos.append(title_image_clip) #creating video clip with title
@@ -121,23 +121,33 @@ def makingVideo(json_obj, bg_video_path, bg_audio_path, bgvideo_interval=None, b
     # guardar a duração do video (das imagens concatenadas)
     final_clip_duration = final_clip.duration
 
-    # --subclip (or not) the bg audio
-    if bgaudio_interval == None: background_audio = mpy.AudioFileClip(bg_audio_path)
+    ### ------ PROCESSING AUDIO -------
 
-    else: 
-        start_bgaudio = bgaudio_interval[0]
-        ends_bgaudio = bgaudio_interval[1]
-        background_audio = mpy.AudioFileClip(bg_audio_path).subclip(start_bgaudio, ends_bgaudio)
+    # without Background Audio
+    if bg_audio_path != None:
 
-    background_audio = afx.audio_fadein(background_audio, 1)
-    background_audio = afx.volumex(background_audio, 0.279)
 
+        # --subclip (or not) the bg audio
+        if bgaudio_interval == None: background_audio = mpy.AudioFileClip(bg_audio_path)
+
+        else: 
+            start_bgaudio = bgaudio_interval[0]
+            ends_bgaudio = bgaudio_interval[1]
+            background_audio = mpy.AudioFileClip(bg_audio_path).subclip(start_bgaudio, ends_bgaudio)
+
+        background_audio = afx.audio_fadein(background_audio, 1)
+        background_audio = afx.volumex(background_audio, 0.279)
+        final_audio = mpy.CompositeAudioClip([background_audio, final_clip.audio])#insert audioclips(voices)
+
+    else:
+        final_audio = mpy.CompositeAudioClip([final_clip.audio])
+
+
+    ### ----- PROCESSING VIDEO -----
     background_video = background_video.set_duration(final_clip.duration)
-
     final_clip = mpy.CompositeVideoClip([background_video, final_clip.set_position(("center", 0.2), relative=True)])
 
-    final_audio = mpy.CompositeAudioClip([background_audio, final_clip.audio])#insert audioclips(voices)
-
+    
 
     final_clip = final_clip.set_audio(final_audio).set_duration(final_clip_duration)
 
