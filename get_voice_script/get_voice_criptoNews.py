@@ -1,6 +1,6 @@
 from json import load
 from pydub import AudioSegment
-from tiktok_voice.get_tiktokVoice import get_tts
+from get_voice_script.tiktok_voice.get_tiktokVoice import get_tts
 
 
 def get_voices_criptoNews(json_obj, silent_duration=500, voice='br_004'):

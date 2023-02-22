@@ -6,3 +6,10 @@ get_voice_script/criptoNews_voices
 assembly_video/videos
 get_images/images
 get_voice_script/buffer_generateText
+assembly_video/transitions
+
+__pycache__
+assembly_video/__pycache__
+get_images/__pycache__
+get_script/__pycache__
+get_voice_script/tiktok_voice/__pycache__
