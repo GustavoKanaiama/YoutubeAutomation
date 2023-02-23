@@ -4,10 +4,23 @@ from pydub import AudioSegment
 from get_voice_script.tiktok_voice.get_tiktokVoice import get_tts
 import os
     
-def get_voices_pt(json_obj, silent_duration=500, voice='br_004'):
+def get_voices_pt(json_obj, silent_duration=500, voice='br_004', sessionid='e3e8b55bf594956f6193f36e9535d014'):
     
-    initial_url = 'api16-normal-c-useast2a.tiktokv.com'
-    sessionid= 'f4d76bf6387273f91dc7b1ae35c7bcec'
+    initial_url = 'api19-normal-useast1a.tiktokv.com'
+
+    """
+    api.tiktokv.com
+    api16-normal-c-alisg.tiktokv.com
+    api19-normal-useast1a.tiktokv.com
+    api16-normal-c-alisg.tiktokv.com
+    api16-normal-c-useast1a.tiktokv.com
+    api16-normal-c-useast2a.tiktokv.com
+    api16-normal-v4.tiktokv.com
+    api16-normal-v6.tiktokv.com
+    api16-va.tiktokv.com
+    """
+
+
 
     json_object = json_obj
     
