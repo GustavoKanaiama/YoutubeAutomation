@@ -59,7 +59,7 @@ def drawImage(json_obj, y_location=100, horiz_space=20, vert_space=25, horiz_bou
         draw.text(xy=(200, y_location), text=json_obj[i]['respostas'][0]['autor_resp'], fill=(89, 161, 210), font=font_type, anchor='lt')
         draw.text(xy=(200+autorResp_width_size[0]+HORIZONTAL_SPACE_VALUE, y_location), text=json_obj[i]['respostas'][0]['data_resp'], fill=(110, 125, 135), font=font_type_data, anchor='lt')
 
-        final_phrase_resp1 = " ".join(textwrap.wrap(text=json_obj[i]['respostas'][0]['comentario_resp'], width=HORIZONTAL_BOUNDARY_MULTILINETEXT))
+        final_phrase_resp1 = "\n".join(textwrap.wrap(text=json_obj[i]['respostas'][0]['comentario_resp'], width=HORIZONTAL_BOUNDARY_MULTILINETEXT))
 
         draw.multiline_text(xy=(200, y_location + 2*VERTICAL_SPACE_VALUE), text=final_phrase_resp1, fill=(cl2), font=font_type, anchor='la')
 
@@ -71,7 +71,7 @@ def drawImage(json_obj, y_location=100, horiz_space=20, vert_space=25, horiz_bou
         draw.text(xy=(200, y_location), text=json_obj[i]['respostas'][1]['autor_resp'], fill=(89, 161, 210), font=font_type, anchor='lt')
         draw.text(xy=(200+autorResp_width_size[0]+HORIZONTAL_SPACE_VALUE, y_location), text=json_obj[i]['respostas'][1]['data_resp'], fill=(110, 125, 135), font=font_type_data, anchor='lt')
 
-        final_phrase_resp2 = " ".join(textwrap.wrap(text=json_obj[i]['respostas'][1]['comentario_resp'], width=HORIZONTAL_BOUNDARY_MULTILINETEXT))
+        final_phrase_resp2 = "\n".join(textwrap.wrap(text=json_obj[i]['respostas'][1]['comentario_resp'], width=HORIZONTAL_BOUNDARY_MULTILINETEXT))
 
         draw.multiline_text(xy=(200, y_location + 2*VERTICAL_SPACE_VALUE), text=final_phrase_resp2, fill=(cl2), font=font_type, anchor='la')
 
